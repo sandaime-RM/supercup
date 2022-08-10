@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@matsuri_ee" />
+        <meta name="twitter:title" content="スーパーカップ診断" />
+        <meta name="twitter:description" content="あなたのアイスの名前を決めます（？）" />
+        <meta name="twitter:image" content="https://www.meiji.co.jp/products/icecream/assets/img/4902705030985.jpg" />
+
+        <!-- Bootstrap -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        
+        <title>スーパーカップ診断</title>
+    </head>
+
+    <body>
+        <header class="px-3 py-2 mb-2 bg-dark text-light">
+            <h1>スーパーカップ診断</h1>
+            <p>あなたのスーパーカップの名前は…？</p>
+        </header>
+
+        <div style="font-size: 6px;" class="mx-2 text-black-50">
+            〇断メーカーもどき
+        </div>
+
+        <main class="text-center py-5">
+            
+
+            <div>
+                <img src="supercup.jpg" height="300px">
+            </div>
+            
+            <button class="btn btn-primary fs-4" onClick="diagnosis()">スタート</button>
+            <div id="result" class="mx-4 my-3 py-3 px-2" style="border: 2px solid #778899; display: none;">
+                <h2>結果</h2>
+                <p id="resultTxt" class="fs-3"></p>
+                <img id="twitter-share-button" data-show-count="false" src="tweet.png" height="40px" style="cursor: pointer;"></img>
+            </div>
+        </main>
+
+        <footer class="bg-dark text-light py-3 px-3">
+            <p>©まつり 2022</p>
+        </footer>
+
+
+        <script>
+
+            function diagnosis() {
+
+                //初期化
+                var chars = ["ス", "パ", "カ", "プ"];
+                var nums = [];
+                var text = "";
+
+                //繰り返し
+                for(var i = 0; i < 4; i ++) {
+                    var check = new Boolean(false);
+
+                    while(check) {
+                        check = false;
+                        nums[i] = Math.floor(Math.random() * 4);
+
+                        for(var j = 0; j < i; j ++) {
+                            if(nums[j] == nums[i]) { check = true; }
+                        }
+                    }
+
+                    text += chars[nums[i]];
+                    switch(i) {
+                        case 0:
+                        case 1:
+                            text += "ー";
+                            break;
+                        
+                        case 2:
+                            text += "ッ";
+                    }
+                }
+
+                document.getElementById("resultTxt").textContent = text;
+                document.getElementById("result").style.display = "inherit";
+                
+            }
+
+            document.getElementById("twitter-share-button").onclick = function() {
+                // 出力結果を取得
+                let text = "私のアイスは「"+document.getElementById("resultTxt").innerText+"」";
+
+                // オプションパラメータを設定
+                let hashtags = "ハッシュタグ";
+                let url = encodeURIComponent(location.href)  // location.hrefは今いるURL
+
+                // URLを生成して遷移
+                window.open("https://twitter.com/share?text=" + text + "&url=" + url);
+            }
+        </script>
+    </body>
+</html>
